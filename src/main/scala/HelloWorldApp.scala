@@ -3,6 +3,7 @@ import js._
 import io.scalajs.nodejs._
 
 object HelloWorldApp extends JSApp {
+
   def main(): Unit = {
     println("Hello world from Scala.js!")
     println("----")
