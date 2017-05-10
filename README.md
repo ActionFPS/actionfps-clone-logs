@@ -57,7 +57,7 @@ This may be useful if you aren't interested in very historical data.
 ## Development
 I recommend IntelliJ IDEA. 
 
-To continuously test inside SBT, run: `~test`.
+To continuously test [inside SBT](https://www.scalawilliam.com/essential-sbt/), run: `~test`.
 
 To test app locally, run:
 
@@ -67,7 +67,7 @@ $ ./bin/actionfps-clone-logs
 ```
 
 ## Publishing
-Requires SBT.
+Requires [SBT](https://www.scalawilliam.com/essential-sbt/).
 
 ```
 $ npm publish
