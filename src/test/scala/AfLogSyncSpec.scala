@@ -24,4 +24,5 @@ class AfLogSyncSpec extends AsyncFreeSpec {
       assert(result.value._2 == 3)
     }
   }
+
 }

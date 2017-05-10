@@ -3,11 +3,10 @@ import io.scalajs.nodejs.readline.ReadlineOptions
 
 import scala.concurrent.{Future, Promise}
 
-/**
-  * Created by william on 10/5/17.
-  */
 object ReadLastTime {
-
+  /**
+    * Read the log to determine the last timestamp and number of times it appears
+    */
   def getLastTimes(file: String): Future[Option[(String, Int)]] = {
     val readInterface = nodejs.readline.Readline.createInterface(
       new ReadlineOptions(

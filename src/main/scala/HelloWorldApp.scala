@@ -2,34 +2,52 @@ import scala.scalajs.js
 import js._
 import io.scalajs.nodejs._
 
+import scala.concurrent.ExecutionContextExecutor
+
 object HelloWorldApp extends JSApp {
+  import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
   def main(): Unit = {
-    println("Hello world from Scala.js!")
-    println("----")
-    println("To demonstrate usage of Node.js api, here's some of your environment:")
-//    process.env.take(5).foreach {
-//      case (key, value) =>
-//        println(s"${key} = ${value}")
-//    }
+//    process.argv.lastOption.orElse(Some("fng")) match {
+    Some("fng") match {
+      case Some(filename) =>
+        val timesGet = ReadLastTime.getLastTimes(filename)
+        timesGet.foreach { (lastTimes: Option[(String, Int)]) =>
+          val fromTime = lastTimes.map(_._1).getOrElse("2016-01-02T03:04:05Z")
 
-//    val eventSource = Dynamic.global.require("eventsource")
-//    import scala.scalajs.js.DynamicImplicits._
-//    val es = Dynamic.newInstance(eventSource)("https://actionfps.com/server-updates/")
-//    es.addEventListener("current-game-status-fragment", { e: js.Dynamic =>
-//      console.log(JSON.stringify(e))
-//    })
-    println(process.cwd())
-
-    fs.Fs
-      .watch(process.cwd(), (e, s) => {
-        println(e)
-        println(s)
-      })
-      .onChange((e, s) => {
-        println("CH", e)
-        println("CH", s)
-      })
-
+//          val request = Dynamic.global.require("request")
+//          val rq = request(s"https://actionfps.com/logs.tsv?from=${fromTime}")
+//          val req = rq
+//            .pipe(fs.Fs.createWriteStream(filename, Dictionary("flags" -> "a")))
+//
+//          import scala.scalajs.js.DynamicImplicits._
+//          rq.on(
+//            "end", { e: js.Dynamic =>
+//              ReadLastTime.getLastTimes(filename).foreach {
+//                rxz =>
+          val eventSource = Dynamic.global.require("eventsource")
+          val eventSourceInitDict =
+            Dictionary("headers" -> Dictionary("Last-Event-Id" -> fromTime))
+          var remainingIgnore = lastTimes.map(_._2).getOrElse(0)
+          val es =
+            Dynamic.newInstance(eventSource)("https://actionfps.com/logs", eventSourceInitDict)
+          es.addEventListener("error", { e: js.Dynamic =>
+            console.log("e", JSON.stringify(e))
+          })
+          es.addEventListener(
+            "log", { e: js.Dynamic =>
+              val line = e.data.toString
+              if (remainingIgnore == 0) {
+                fs.Fs.appendFileSync(filename, line + "\n")
+              } else {
+                remainingIgnore = remainingIgnore - 1
+              }
+            }
+          )
+//              }
+//            }
+//          )
+        }
+    }
   }
 }
