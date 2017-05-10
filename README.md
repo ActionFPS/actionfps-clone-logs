@@ -1,49 +1,69 @@
-# Scala.js CLI demo [![Build Status](https://travis-ci.org/ScalaWilliam/scalajs-cli-demo.svg?branch=master)](https://travis-ci.org/ScalaWilliam/scalajs-cli-demo)
+# actionfps-clone-logs
 
-> Publish Scala.js apps through NPM
-
-[![NPM](https://nodei.co/npm/scalajs-cli-demo.png?compact=true)](https://nodei.co/npm/scalajs-cli-demo/)
+> Clone live ActionFPS logs into a file.
+ 
+[![NPM](https://nodei.co/npm/actionfps-clone-logs.png?compact=true)](https://nodei.co/npm/actionfps-clone-logs/)
 
 ## Rationale
- 
-Most likely, you've never ran a Scala CLI app, let alone a Scala.js CLI app.
 
-But more likely you have ran Node.js CLI apps. This is because it is super
-easy to publish your own CLI application through the NPM repository.
+In order to turn ActionFPS into a platform, we need to share
+raw logs with the potential users, and we'd also like to do it live
+because there are some use cases where only live data is useful.
 
-On the other hand. publishing Scala apps is not the easiest thing in the world.
-I want to get the best of both worlds: an excellent programming language
-and an excellent lightweight distribution channel.
+The simplest solution with features like authentication that is available
+is [EventSource](https://www.w3.org/TR/2015/REC-eventsource-20150203/)
+over HTTP/S.
 
-Here's a demo to show you that it is possible.
+EventSource is supported by [Node.js](https://github.com/EventSource/eventsource/)
+and HTML5/Google Chrome, and ActionFPS supplies these events live using an HTTPS
+endpoint
 
-It includes the use of the [Scala.js Node.js strong-typed API](https://github.com/scalajs-io/nodejs)
-by [Lawrence Daniels](https://github.com/ldaniels528).
+The project is written in [Scala.js](https://www.scala-js.org/) and is based on 
+[scalajs-cli-demo](https://github.com/ScalaWilliam/scalajs-cli-demo).
+
+Node/JavaScript platform is chosen because it is a good distribution platform with easy access.
+
+Scala is chosen as this is what ActionFPS is built on and provides great testing 
+and refactoring capabilities.
 
 ## Usage
 Use the pre-built npmjs package.
 
 ```
-$ npm install -g scalajs-cli-demo
-$ scalajs-cli-demo
-Hello world from Scala!
-----
-To demonstrate we're in Node, here's some of your environment:
-PATH = /home/...
+$ npm install -g actionfps-clone-logs
+$ touch actionfps.tsv
+$ actionfps-clone-logs actionfps.tsv
+Reading file actionfps.tsv...
+Resuming from time 2016-01-02T03:04:05Z, with 0 lines at this time
 ```
+
+### Authorization
+
+An authorization token can be specified via an environment variable:
+ 
+```
+$ AUTHORIZATION="Bearer xyz..." actionfps-clone-logs actionfps.tsv
+```
+
+This may let you see full IP addresses for example.
+
+### Default start time
+
+`DEFAULT_START_TIME` (ISO8601 datetime) can be specified
+for a default start of the stream.
+
+This may be useful if you aren't interested in very historical data.
 
 ## Development
 I recommend IntelliJ IDEA. 
 
-To iterate, inside SBT run:
-```
-> ~run
-```
+To continuously test inside SBT, run: `~test`.
 
-or:
+To test app locally, run:
 
 ```
-> ~test
+$ sbt publishLocal
+$ ./bin/actionfps-clone-logs
 ```
 
 ## Publishing

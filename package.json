@@ -1,17 +1,17 @@
 {
-  "name": "scalajs-cli-demo",
-  "version": "1.0.4",
-  "description": "POC to see if we can publish ScalaJS apps on npmjs.",
+  "name": "actionfps-clone-logs",
+  "version": "1.0.0",
+  "description": "Clone logs from ActionFPS to local file",
   "bin": {
-    "scalajs-cli-demo": "bin/scalajs-cli-demo"
+    "actionfps-clone-logs": "bin/actionfps-clone-logs"
   },
   "scripts": {
-    "prepublish": "sbt 'show fullOptJS' && cp target/scala-2.12/scalajs-cli-demo-opt.js ./lib/main.js",
+    "prepublish": "sbt publishLocal",
     "test": "sbt test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ScalaWilliam/scalajs-cli-demo.git"
+    "url": "git+https://github.com/ScalaWilliam/actionfps-clone-logs.git"
   },
   "keywords": [
     "scalajs",
@@ -20,7 +20,10 @@
   "author": "ScalaWilliam",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ScalaWilliam/scalajs-cli-demo/issues"
+    "url": "https://github.com/ScalaWilliam/actionfps-clone-logs/issues"
   },
-  "homepage": "https://github.com/ScalaWilliam/scalajs-cli-demo#readme"
+  "homepage": "https://github.com/ScalaWilliam/actionfps-clone-logs#readme",
+  "dependencies": {
+    "eventsource": "^1.0.1"
+  }
 }
