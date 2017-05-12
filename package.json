@@ -1,6 +1,6 @@
 {
   "name": "actionfps-clone-logs",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Clone logs from ActionFPS to local file",
   "bin": {
     "actionfps-clone-logs": "bin/actionfps-clone-logs"
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/ScalaWilliam/actionfps-clone-logs#readme",
   "dependencies": {
-    "eventsource": "^1.0.1"
+    "eventsource": "^1.0.1",
+    "netrc": "^0.1.4"
   }
 }
