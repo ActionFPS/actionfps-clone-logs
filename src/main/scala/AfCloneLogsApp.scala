@@ -7,13 +7,13 @@ object AfCloneLogsApp extends JSApp {
 
   private val DefaultStartTimeEnv = "DEFAULT_START_TIME"
 
-  private val AuthorizationEnv = "AUTHORIZATION"
-
   private val defaultStartTime: String =
     process.env.get(DefaultStartTimeEnv).getOrElse("2016-01-02T03:04:05Z")
 
-  private val authorization: Option[String] =
-    process.env.get(AuthorizationEnv)
+  private val authorization: Option[String] = Credentials
+    .loadEnv()
+    .orElse(Credentials.loadNetRC())
+    .map(_.authorizationString)
 
   def main(): Unit = {
 

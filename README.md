@@ -47,6 +47,16 @@ $ AUTHORIZATION="Bearer xyz..." actionfps-clone-logs actionfps.tsv
 
 This may let you see full IP addresses for example.
 
+#### Authorization with `.netrc`
+
+You can also place your token in `.netrc` as such:
+
+```
+$ cat ~/.netrc
+machine actionfps.com
+	password xyz...
+```
+
 ### Default start time
 
 `DEFAULT_START_TIME` (ISO8601 datetime) can be specified
